@@ -106,6 +106,7 @@ estacion_meteorologica_iot/
 ├── docker-compose.yml
 └── README.md
 ```
+<img width="488" height="424" alt="image" src="https://github.com/user-attachments/assets/e4fdffc9-57fc-4c48-b4d6-0047f5d592e9" />
 
 ---
 
