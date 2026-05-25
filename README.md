@@ -217,6 +217,8 @@ Incluye actualización automática y monitoreo continuo.
 ---
 
 ## Evidencia visual
+<img width="1914" height="1009" alt="image" src="https://github.com/user-attachments/assets/b7e75627-dec5-45f3-889f-e2d265864667" />
+
 <img width="1852" height="773" alt="image" src="https://github.com/user-attachments/assets/90a83a6c-72da-427c-ac4c-f3c26be4d2ee" />
 <img width="1851" height="988" alt="image" src="https://github.com/user-attachments/assets/1434f9d1-63d0-430d-8e6d-d6abe3d0854c" />
 
