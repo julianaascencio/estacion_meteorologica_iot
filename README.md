@@ -55,6 +55,11 @@ http://localhost:8000
 
 ## Capturas
 
+<img width="1860" height="794" alt="image" src="https://github.com/user-attachments/assets/e2d2b05d-e9ed-49b7-a598-d38ba522ca31" />
+
+<img width="1856" height="1001" alt="image" src="https://github.com/user-attachments/assets/d3fde416-5a52-4dd0-bc3f-9b597e290ccd" />
+
+
 (aquí pondremos tus screenshots)
 
 ## Próximamente
