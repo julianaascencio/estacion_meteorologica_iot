@@ -213,12 +213,6 @@ Incluye actualización automática y monitoreo continuo.
 ## Mejoras futuras
 
 - Integración completa con sensores físicos
-- Alertas automáticas por umbrales críticos
-- Notificaciones remotas
-- Integración con MQTT
-- Despliegue en nube
-- Monitoreo multiestación
-- Seguridad y autenticación de API
 
 ---
 
