@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS estacion_iot;
+
+USE estacion_iot;
+
+CREATE TABLE IF NOT EXISTS clima (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    temperatura FLOAT NOT NULL,
+    humedad FLOAT NOT NULL,
+    presion FLOAT NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

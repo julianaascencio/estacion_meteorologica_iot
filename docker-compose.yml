@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: mariadb_estacion
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: estacion_iot
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+
+  api:
+    build: ./api
+    container_name: api_estacion
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana_estacion
+    restart: always
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
