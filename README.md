@@ -222,14 +222,15 @@ Incluye actualización automática y monitoreo continuo.
 ---
 
 ## Evidencia visual
-
-Agregar capturas del dashboard en esta sección.
+<img width="1852" height="773" alt="image" src="https://github.com/user-attachments/assets/90a83a6c-72da-427c-ac4c-f3c26be4d2ee" />
+<img width="1851" height="988" alt="image" src="https://github.com/user-attachments/assets/1434f9d1-63d0-430d-8e6d-d6abe3d0854c" />
 
 ---
 
 ## Autor
 
 Juliana Ascencio
+Javier Ocampo
 
 Proyecto académico orientado a soluciones IoT para monitoreo ambiental.
 
