@@ -1,92 +1,96 @@
-# 🌦 Estación Meteorológica IoT Bogotá
+# Estación Meteorológica IoT Bogotá
 
-Sistema de monitoreo ambiental en tiempo real basado en arquitectura IoT, diseñado para la captura, almacenamiento, procesamiento y visualización de variables meteorológicas utilizando contenedores Docker, API REST y dashboard interactivo.
-
----
-
-## 📌 Descripción del proyecto
-
-Este proyecto implementa una **estación meteorológica IoT** capaz de monitorear variables ambientales como:
-
-- 🌡 Temperatura ambiente
-- 💧 Humedad relativa
-- 🌀 Presión atmosférica
-
-Actualmente el sistema opera con un **simulador meteorológico realista basado en condiciones de Bogotá, Colombia**, mientras se integran los sensores físicos.
-
-La arquitectura fue diseñada para ser escalable, permitiendo reemplazar fácilmente el simulador por un **ESP32 con sensores reales (DHT22 y BMP280)** sin modificar el backend ni el dashboard.
+Sistema de monitoreo ambiental en tiempo real basado en arquitectura IoT para la captura, almacenamiento, procesamiento y visualización de variables meteorológicas mediante infraestructura contenerizada, API REST y dashboard interactivo.
 
 ---
 
-# 🏗 Arquitectura del sistema
+## Descripción del proyecto
+
+Este proyecto implementa una estación meteorológica IoT orientada al monitoreo continuo de condiciones ambientales mediante sensores conectados a un microcontrolador ESP32.
+
+El sistema permite capturar, almacenar y visualizar en tiempo real variables meteorológicas como:
+
+- Temperatura ambiente
+- Humedad relativa
+- Presión atmosférica
+
+La solución fue diseñada bajo una arquitectura modular y escalable, permitiendo integración con hardware IoT, backend desacoplado y visualización profesional para monitoreo en tiempo real.
+
+---
+
+## Arquitectura del sistema
 
 ```text
-                ┌────────────────────┐
-                │ ESP32 / Simulador  │
-                │ Datos meteorológicos│
-                └─────────┬──────────┘
-                          │ HTTP POST
-                          ▼
-                ┌────────────────────┐
-                │ FastAPI REST API   │
-                │ Endpoint /data     │
-                └─────────┬──────────┘
-                          │ SQL INSERT
-                          ▼
-                ┌────────────────────┐
-                │ MariaDB Database   │
-                │ Tabla clima        │
-                └─────────┬──────────┘
-                          │ Query
-                          ▼
-                ┌────────────────────┐
-                │ Grafana Dashboard  │
-                │ Visualización RT   │
-                └────────────────────┘
+                +----------------------+
+                |        ESP32         |
+                |   Sensores IoT       |
+                |   DHT22 / BMP280     |
+                +----------+-----------+
+                           |
+                           | HTTP POST
+                           v
+                +----------------------+
+                |    FastAPI REST API  |
+                |    Endpoint /data    |
+                +----------+-----------+
+                           |
+                           | SQL INSERT
+                           v
+                +----------------------+
+                |   MariaDB Database   |
+                |     Tabla clima      |
+                +----------+-----------+
+                           |
+                           | Query
+                           v
+                +----------------------+
+                |   Grafana Dashboard  |
+                | Monitoreo en tiempo  |
+                |        real          |
+                +----------------------+
 ```
 
 ---
 
-# 🚀 Tecnologías utilizadas
+## Tecnologías utilizadas
 
-## Backend
+### Backend
 - Python 3
 - FastAPI
 - Uvicorn
-- Requests
 - Pydantic
 
-## Base de datos
+### Base de datos
 - MariaDB 10.11
 
-## Visualización
+### Visualización
 - Grafana
 
-## Infraestructura
+### Infraestructura
 - Docker
 - Docker Compose
 
-## IoT (próxima integración)
+### Hardware IoT
 - ESP32
-- DHT22
-- BMP280
+- Sensor DHT22
+- Sensor BMP280
 
 ---
 
-# ⚙ Características principales
+## Características principales
 
-✅ API REST para recepción de datos meteorológicos  
-✅ Persistencia en base de datos SQL  
-✅ Dashboard profesional en tiempo real  
-✅ Simulación meteorológica basada en Bogotá  
-✅ Arquitectura completamente dockerizada  
-✅ Escalable a sensores físicos reales  
-✅ Históricos de variables ambientales  
-✅ Monitoreo continuo con actualización automática  
+- Monitoreo ambiental en tiempo real
+- API REST para recepción de datos IoT
+- Persistencia de datos en base de datos SQL
+- Dashboard interactivo con métricas históricas
+- Arquitectura completamente dockerizada
+- Integración modular entre hardware y software
+- Visualización centralizada mediante Grafana
+- Escalabilidad para futuras integraciones
 
 ---
 
-# 📂 Estructura del proyecto
+## Estructura del proyecto
 
 ```text
 estacion_meteorologica_iot/
@@ -99,18 +103,15 @@ estacion_meteorologica_iot/
 ├── database/
 │   └── init.sql
 │
-├── simulador.py
 ├── docker-compose.yml
 └── README.md
 ```
 
 ---
 
-# 🔌 Endpoints disponibles
+## Endpoints disponibles
 
-## API principal
-
-### Verificar estado
+### Verificación del estado de la API
 
 ```http
 GET /
@@ -126,7 +127,7 @@ Respuesta:
 
 ---
 
-### Enviar datos meteorológicos
+### Envío de datos meteorológicos
 
 ```http
 POST /data
@@ -144,17 +145,19 @@ Ejemplo:
 
 ---
 
-### Consultar histórico
+### Consulta de histórico
 
 ```http
 GET /data
 ```
 
+Permite recuperar registros almacenados en la base de datos.
+
 ---
 
-# 🐳 Instalación y ejecución
+## Instalación y despliegue
 
-## 1. Clonar repositorio
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/julianaascencio/estacion_meteorologica_iot.git
@@ -163,7 +166,7 @@ cd estacion_meteorologica_iot
 
 ---
 
-## 2. Levantar contenedores
+### Levantar la infraestructura
 
 ```bash
 docker compose up --build
@@ -171,19 +174,19 @@ docker compose up --build
 
 Servicios disponibles:
 
-FastAPI:
+API REST:
 
 ```text
 http://localhost:8000
 ```
 
-Grafana:
+Dashboard Grafana:
 
 ```text
 http://localhost:3000
 ```
 
-MariaDB:
+Base de datos MariaDB:
 
 ```text
 localhost:3306
@@ -191,71 +194,44 @@ localhost:3306
 
 ---
 
-# 🌆 Simulación meteorológica Bogotá
+## Dashboard de monitoreo
 
-Mientras se integran sensores físicos, el sistema utiliza un simulador de condiciones reales nocturnas de Bogotá:
+El dashboard desarrollado en Grafana permite visualizar:
 
-- Temperatura: 8°C – 18°C
-- Humedad: 65% – 98%
-- Presión atmosférica: 740 – 765 hPa
+- Temperatura actual
+- Histórico de temperatura
+- Humedad actual
+- Histórico de humedad
+- Presión atmosférica actual
+- Histórico de presión atmosférica
 
-Ejecutar:
-
-```bash
-py simulador.py
-```
-
-Esto enviará datos automáticos cada 5 segundos al backend.
+Incluye actualización automática y monitoreo continuo.
 
 ---
 
-# 📊 Dashboard Grafana
+## Mejoras futuras
 
-El dashboard incluye:
-
-- 🌡 Temperatura actual
-- 📈 Histórico de temperatura
-- 💧 Humedad actual
-- 📈 Histórico de humedad
-- 🌀 Presión actual
-- 📈 Histórico de presión
-
-Con actualización automática en tiempo real.
-
----
-
-# 🧠 Futuras mejoras
-
-## Integración hardware real
-- ESP32
-- Sensor DHT22
-- Sensor BMP280
-
-## Mejoras funcionales
-- Alertas automáticas
-- Notificaciones MQTT
-- Dashboard remoto
-- Autenticación de API
+- Integración completa con sensores físicos
+- Alertas automáticas por umbrales críticos
+- Notificaciones remotas
+- Integración con MQTT
 - Despliegue en nube
 - Monitoreo multiestación
+- Seguridad y autenticación de API
 
 ---
 
-# 📷 Capturas del dashboard
+## Evidencia visual
 
-Agregar aquí screenshots del dashboard:
-
-```text
-/images/dashboard.png
-```
+Agregar capturas del dashboard en esta sección.
 
 ---
 
-# 👨‍💻 Autor
+## Autor
 
-**Juliana Ascencio**
+Juliana Ascencio
 
-Proyecto académico / portafolio IoT.
+Proyecto académico orientado a soluciones IoT para monitoreo ambiental.
 
 GitHub:
 
@@ -263,6 +239,6 @@ https://github.com/julianaascencio
 
 ---
 
-# 📄 Licencia
+## Licencia
 
 MIT License
