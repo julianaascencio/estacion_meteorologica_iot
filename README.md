@@ -236,82 +236,90 @@ El código del ESP32 se encuentra en:
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "DHT.h"
+#include <Wire.h>
+#include <Adafruit_BMP280.h>
 
 #define DHTPIN 4
-#define DHTTYPE DHT11   // Si tu sensor es DHT22, cambia esto a DHT22
+#define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
+Adafruit_BMP280 bmp;
 
-// Cambia estos datos por tu WiFi real
+// WiFi
 const char* ssid = "Mantenimiento";
 const char* password = "12345678";
 
-// IP de tu computador según ipconfig
+// API FastAPI
 String serverURL = "http://192.168.137.138:8000/data";
 
-float humedad = 80.0;
-float presion = 758.0;
-
 void setup() {
+
   Serial.begin(115200);
+
   dht.begin();
 
+  // BMP280
+  if (!bmp.begin(0x76)) {
+    Serial.println("BMP280 no encontrado");
+    while (1);
+  }
+
+  // WiFi
   WiFi.begin(ssid, password);
-  Serial.println("Conectando a WiFi...");
+
+  Serial.print("Conectando WiFi");
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
+    delay(500);
     Serial.print(".");
   }
 
-  Serial.println();
-  Serial.println("WiFi conectado correctamente");
-  Serial.print("IP del ESP32: ");
+  Serial.println("");
+  Serial.println("WiFi conectado");
   Serial.println(WiFi.localIP());
 }
 
 void loop() {
-  float temperatura = dht.readTemperature();
 
-  if (isnan(temperatura)) {
-    Serial.println("Error leyendo temperatura del sensor");
-    delay(5000);
+  // Lecturas reales
+  float temperatura = dht.readTemperature();
+  float humedad = dht.readHumidity();
+
+  // Presión real
+  float presion = bmp.readPressure() / 100.0F;
+
+  if (isnan(temperatura) || isnan(humedad)) {
+    Serial.println("Error leyendo DHT11");
+    delay(2000);
     return;
   }
 
-  humedad += random(-10, 11) / 10.0;
-  presion += random(-5, 6) / 10.0;
-
-  humedad = constrain(humedad, 65.0, 98.0);
-  presion = constrain(presion, 740.0, 765.0);
-
-  String jsonData = "{";
-  jsonData += "\"temperatura\":" + String(temperatura, 2) + ",";
-  jsonData += "\"humedad\":" + String(humedad, 2) + ",";
-  jsonData += "\"presion\":" + String(presion, 2);
-  jsonData += "}";
-
-  Serial.println("Enviando datos:");
-  Serial.println(jsonData);
-
   if (WiFi.status() == WL_CONNECTED) {
+
     HTTPClient http;
+
     http.begin(serverURL);
     http.addHeader("Content-Type", "application/json");
 
+    String jsonData = "{";
+    jsonData += "\"temperatura\":" + String(temperatura, 2) + ",";
+    jsonData += "\"humedad\":" + String(humedad, 2) + ",";
+    jsonData += "\"presion\":" + String(presion, 2);
+    jsonData += "}";
+
+    Serial.println("Enviando datos:");
+    Serial.println(jsonData);
+
     int httpResponseCode = http.POST(jsonData);
 
-    Serial.print("Respuesta HTTP: ");
+    Serial.print("Código HTTP: ");
     Serial.println(httpResponseCode);
 
     http.end();
-  } else {
-    Serial.println("WiFi desconectado");
   }
 
   delay(5000);
-}
-```
+}```
 ---
 
 ## Evidencia visual
